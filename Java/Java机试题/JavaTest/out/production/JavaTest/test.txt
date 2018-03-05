@@ -1,0 +1,6 @@
+Welcome to the test
+Now you are solving the Java EXAM
+Please get the count of lines in this file
+And which line is the longest
+Can you get the longest word from the longest line
+Try it
