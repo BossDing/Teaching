@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs.dao.DepartmentDAO">
+
+    <resultMap id="departmentMap" type="department">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="des" property="des"/>
+        <association property="departmentDetail" javaType="departmentDetail">
+            <id column="detail_id" property="id"/>
+            <result column="create_by" property="createBy"/>
+            <result column="create_time" property="createTime"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="departmentEmployeeMap" type="department">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="des" property="des"/>
+        <collection property="employeeList" javaType="list" ofType="employee">
+            <id column="emp_id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="phone" property="phone"/>
+            <result column="department_id" property="departmentId"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="departmentEmpMap" type="department">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="des" property="des"/>
+        <association property="departmentDetail" javaType="departmentDetail">
+            <id column="detail_id" property="id"/>
+            <result column="create_by" property="createBy"/>
+            <result column="create_time" property="createTime"/>
+        </association>
+        <collection property="employeeList" javaType="list" ofType="employee">
+            <id column="emp_id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="phone" property="phone"/>
+            <result column="department_id" property="departmentId"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="departmentEmpsMap" type="departmentEmployee">
+        <id column="dept_id" property="deptId"/>
+        <result column="title" property="title"/>
+        <result column="des" property="des"/>
+        <result column="emp_id" property="empId"/>
+        <result column="phone" property="phone"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <select id="listAll" resultMap="departmentMap">
+      <![CDATA[
+        select * from t_department
+      ]]>
+    </select>
+
+    <select id="getById" resultMap="departmentMap">
+        <![CDATA[
+        select d.*, dd.id as detail_id, dd.create_by, dd.create_time
+        from t_department d, t_department_detail dd where d.id = dd.id
+      ]]>
+    </select>
+
+    <select id="getByIdWithEmployee" resultMap="departmentEmployeeMap">
+        <![CDATA[
+        select d.*, e.id as emp_id, e.name, e.phone, e.department_id
+        from t_department d, t_employee e where d.id = e.department_id
+      ]]>
+    </select>
+
+    <select id="getById1" parameterType="integer" resultMap="departmentEmpsMap">
+        <![CDATA[
+          select d.id as dept_id, d.title, d.des, e.id as emp_id, e.phone, e.name
+          from t_department d, t_employee e where d.id = e.department_id
+        ]]>
+    </select>
+
+    <select id="listByQuery" parameterType="com.gs.bean.DepartmentQuery" resultType="department">
+        <![CDATA[
+          select * from t_department where 1 = 1
+        ]]>
+        <if test="title != null and title != ''">
+            and title like concat('%', #{title} '%')
+        </if>
+        <if test="des != null and des != ''">
+            and des like concat('%', #{des}, '%')
+        </if>
+    </select>
+
+    <select id="listByQuery1" parameterType="com.gs.bean.DepartmentQuery" resultType="department">
+        <![CDATA[
+          select * from t_department where 1 = 1
+        ]]>
+        <choose>
+            <when test="title != null and title != ''">
+              and title like concat('%', #{title} '%')
+            </when>
+            <when test="des != null and des != ''">
+                and des like concat('%', #{des}, '%')
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--
+    <select id="listByQuery2" parameterType="com.gs.bean.DepartmentQuery" resultType="department">
+        <![CDATA[
+          select * from t_department where
+        ]]>
+        <if test="title != null and title != ''">
+            and title like concat('%', #{title} '%')
+        </if>
+        <if test="des != null and des != ''">
+            and des like concat('%', #{des}, '%')
+        </if>
+    </select>
+    -->
+
+    <select id="listByQuery2" parameterType="com.gs.bean.DepartmentQuery" resultType="department">
+        <![CDATA[
+          select * from t_department
+        ]]>
+        <where>
+            <if test="title != null and title != ''">
+                title like concat('%', #{title} '%')
+            </if>
+            <if test="des != null and des != ''">
+                and des like concat('%', #{des}, '%')
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="department">
+        <![CDATA[
+          update t_department
+        ]]>
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="des != null and des != ''">
+                des = #{des},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="batchSave" parameterType="list">
+        <![CDATA[
+          insert into t_department(title, des) values
+        ]]>
+        <foreach item="item" collection="list" separator=",">
+            (#{item.title}, #{item.des})
+        </foreach>
+    </insert>
+
+    <delete id="batchRemove">
+        <![CDATA[
+          delete from t_department where id in
+        ]]>
+        <foreach item="id" collection="array" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="listByPager" resultType="department">
+        <![CDATA[
+          select * from t_department limit #{beginIndex}, #{pageSize}
+        ]]>
+    </select>
+
+    <insert id="saveGetKey" parameterType="department">
+        <selectKey keyColumn="id" keyProperty="id" resultType="integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        <![CDATA[
+          insert into t_department(title, des) values(#{title}, #{des})
+        ]]>
+    </insert>
+
+</mapper>
