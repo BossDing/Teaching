@@ -1,0 +1,1 @@
+wsimport -s D:\JavaDevelopment\webservice\jdk\src\main\java -p com.gs.client -keep http://127.0.0.1/webservice/hello?wsdl -encoding utf-8
