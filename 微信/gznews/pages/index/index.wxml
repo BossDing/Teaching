@@ -1,0 +1,16 @@
+<!--index.wxml-->
+<view class="list">
+  <template name="itmes">
+  <navigator url="../../pages/detail/detail?title=navigate" hover-class="navigator-hover">
+      <view class="imgs"><image src="{{fistImg}}" class="in-img" background-size="cover" model="scaleToFill"></image></view>
+      <view class="infos">
+        <view class="title">{{title}}</view>
+        <view class="classification">分类:{{category}}</view>
+        <view class="date">更新:{{date}}</view>
+      </view>
+    </navigator>
+  </template>
+  <block wx:key="{{newList.firstImg}}" wx:for="{{newList}}" class="cell">
+    <template is="itmes" data="{{...item}}"/>
+  </block>
+</view>
