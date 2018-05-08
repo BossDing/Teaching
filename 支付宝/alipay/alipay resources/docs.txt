@@ -1,0 +1,35 @@
+1、沙箱环境二维码快速接入
+    https://docs.open.alipay.com/399/106911/
+
+2、沙箱应用，沙箱钱包下载地址（登录）
+    https://openhome.alipay.com/platform/appDaily.htm?tab=info
+
+    沙箱账号：
+    https://openhome.alipay.com/platform/appDaily.htm?tab=account
+
+    沙箱环境条码快速接入：
+    https://openhome.alipay.com/platform/appDaily.htm?tab=info
+
+    使用沙箱环境说明
+    https://docs.open.alipay.com/200/105311
+
+3、当面付快速接入（条码支持，扫码支持，查询，退款相关）
+    https://docs.open.alipay.com/194/105170/
+
+4、当面付所有内容
+    https://docs.open.alipay.com/194
+
+    APP支付所有内容
+    https://docs.open.alipay.com/204
+
+    手机网站支付所有内容
+    https://docs.open.alipay.com/203
+
+    电脑网站支付所有内容
+    https://docs.open.alipay.com/270
+
+5、创建应用，我的应用
+    https://openhome.alipay.com/platform/appManage.htm
+
+6、完整的开发指南页面（创建，开发，上线）
+    https://docs.open.alipay.com/399/
