@@ -1,0 +1,41 @@
+/**index.wxss**/
+.tea {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.tea image {
+  width: 100%;
+  height: 200px;
+}
+
+.tea-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  width: 70%;
+}
+
+.title {
+  color: blue;
+}
+
+.sale-price {
+  color: orange;
+}
+
+
+.opts {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  bottom: 0px;
+}
+
+.opts view {
+  width: 30%;
+  margin-right: 3.3%;
+}

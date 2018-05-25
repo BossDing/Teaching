@@ -1,0 +1,77 @@
+/**index.wxss**/
+.user {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: row;
+}
+
+.headicon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.nickname {
+  height: 40px;
+  line-height: 40px;
+}
+
+.nickname text {
+  margin-left: 10px;
+}
+
+.user-list view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 55px;
+  border-bottom: 1px solid silver;
+}
+
+.user-list image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-list .left {
+  width: 95%;
+}
+
+.user-list .right {
+  width: 5%;
+  color: silver;
+}
+
+.user-list i {
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+.user-list .info {
+  color: blue;
+}
+
+.user-list .list {
+  color: red;
+}
+
+.user-list .cart {
+  color: orange;
+}
+
+.user-list .about {
+  color: blcak;
+}
+
+.my-btn {
+  width: 100%;
+}

@@ -1,0 +1,22 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="tea">
+    <image src="{{tea.img}}"/>
+    <view class="tea-text">
+    <text class="title">{{tea.title}}</text>
+    <text class="des">{{tea.des}}</text>
+    <text class="price">{{tea.price}}</text>
+    <text class="sale-price">{{tea.salePrice}}</text>
+    </view>
+  </view>
+
+  <view class="opts">
+      <view class="my-btn"><i class="iconfont icon-htmal5icon29 cart" bindtap="showCart"></i></view>
+      <view class="my-btn" bindtap="addCart" data-index="{{index}}">
+        <i class="iconfont icon-htmal5icon29"></i>
+      </view>
+      <view class="my-btn">
+        <i class="iconfont icon-goumai"></i>
+      </view>
+    </view>
+</view>

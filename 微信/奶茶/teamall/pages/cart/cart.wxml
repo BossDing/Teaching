@@ -1,0 +1,29 @@
+<!--index.wxml-->
+<view class="container">
+<view>
+
+  <view wx:if="{{cart == null || cart.length == 0}}">
+    <text>暂无奶茶，请添加购物车</text>
+  </view>
+  <block wx:else>
+    <view class="tea" wx:for="{{cart}}" wx:key="*this">
+    <image src="{{item.img}}" />
+    <view class="tea-text">
+      <text class="title">{{item.title}}</text>
+      <text class="sale-price">抢购价：{{item.salePrice}}</text>
+    </view>
+    <view class="opts">
+     <i class="iconfont icon-wuuiconsuoxiao plus" data-index="{{index}}" bindtap="cartMinus"></i>
+      <text>{{item.count}}</text>
+      <i class="iconfont icon-jia-tianchong plus" data-index="{{index}}" bindtap="cartPlus"></i>
+       <i class="iconfont icon-shanchu remove" data-index="{{index}}" bindtap="removeCart"></i>
+    </view>
+  </view>
+  <view>
+    您共需要支付：￥{{cost}}
+  </view>
+  <button class="cash-btn" type="primary">立即结算</button>
+  </block>
+</view>
+
+</view>

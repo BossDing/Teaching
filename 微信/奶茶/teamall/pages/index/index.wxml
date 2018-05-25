@@ -1,0 +1,34 @@
+<!--index.wxml-->
+<view class="container">
+  <view>
+  <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000">
+  <block wx:for="{{imgUrls}}" wx:key="*this">
+    <swiper-item>
+      <image src="{{item}}" class="slide-image"/>
+    </swiper-item>
+  </block>
+</swiper>
+</view>
+
+<view>
+
+  <view class="tea" wx:for="{{teas}}" wx:key="*this">
+    <image data-index="{{index}}" src="{{item.img}}" bindtap="showDetail"/>
+    <view class="tea-text">
+      <text class="title">{{item.title}}</text>
+      <text class="des">{{item.des}}</text>
+      <text class="price">原价：{{item.price}}</text>
+      <text class="sale-price">抢购价：{{item.salePrice}}</text>
+    </view>
+    <view class="btns">
+      <button class="weui-btn" type="primary" bindtap="addCart" data-index="{{index}}">
+        <i class="iconfont icon-htmal5icon29"></i>
+      </button>
+      <button class="weui-btn" type="warn">
+        <i class="iconfont icon-goumai"></i>
+      </button>
+    </view>
+  </view>
+</view>
+
+</view>

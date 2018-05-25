@@ -1,0 +1,46 @@
+<!--index.wxml-->
+<view class="container">
+
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="weui-btn my-btn"> 登录 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" src="{{userInfo.avatarUrl}}" background-size="cover" class="headicon"></image>
+      <view class="nickname">
+        <text>{{userInfo.nickName}}</text>
+        <text wx:if="{{userInfo.gender == 1}}">男</text>
+        <text wx:elif="{{userInfo.gender == 2}}">女</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="user-list">
+    <view>
+      <view class="left">
+        <i class="iconfont icon-xinxi info"></i>
+        <text>我的信息</text>
+      </view>
+      <view class="right">></view>
+    </view>
+    <view>
+      <view class="left">
+      <i class="iconfont icon-dingdan list"></i>
+        <text>我的订单</text>
+      </view>
+      <view class="right">></view>
+    </view>
+    <view>
+      <view class="left" bindtap="showCart">
+      <i class="iconfont icon-htmal5icon29 cart"></i>
+        <text>我的购物车</text>
+      </view>
+      <view class="right">></view>
+    </view>
+    <view>
+      <view class="left">
+      <i class="iconfont icon-guanyu about"></i>
+        <text>关于</text>
+      </view>
+      <view class="right">></view>
+    </view>
+  </view>
+</view>

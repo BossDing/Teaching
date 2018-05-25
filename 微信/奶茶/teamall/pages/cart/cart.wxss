@@ -1,0 +1,49 @@
+/**index.wxss**/
+.tea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.tea image {
+  width: 80px;
+  height: 80px;
+}
+
+.tea-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  width: 50%;
+}
+
+.title {
+  color: blue;
+}
+
+.sale-price {
+  color: orange;
+}
+
+.opts text {
+  color: green;
+  margin-right: 10px;
+}
+
+.opts i {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.opts .plus {
+  color: green;
+}
+
+.opts .remove {
+  color: red;
+}
+
+.cash-btn {
+  margin-top: 20px;
+}

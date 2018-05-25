@@ -1,0 +1,49 @@
+/**index.wxss**/
+
+swiper image {
+  width: 100%;
+  height: 150px;
+}
+
+.tea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.tea image {
+  width: 80px;
+  height: 80px;
+}
+
+.tea-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  width: 50%;
+}
+
+.title {
+  color: blue;
+}
+
+.des {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.price {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.sale-price {
+  color: orange;
+}
+
+.btns button {
+  font-size: 14px;
+  margin-top: 3px;
+  width: 100px;
+}

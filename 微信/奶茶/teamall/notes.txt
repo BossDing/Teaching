@@ -1,0 +1,94 @@
+1、app.js的结构（所有js文件的结构）
+
+app.js
+
+  App({
+    // 函数段
+    onLaunch: function(){
+
+    },
+    onLoad: function() {
+
+    },
+    bindViewTap: function() {
+
+    },
+    getInfo: function() {
+
+    },
+    // 数据段，所有页面都能使用的数据
+    globalData: {
+      userInfo: null,
+      userHead: 'a.png'
+    }
+  })
+
+  page_name.js
+
+  Page({
+    // 函数段，只能是page_name这个页面使用
+    onLoad: function() {
+
+    },
+    bindViewTap: function() {
+
+    },
+    getInfo: function() {
+
+    },
+    // 数据段，只能是page_name这个页面使用
+    data: {
+      phone: '',
+      nickname: ''
+    }
+  })
+
+2、wx:if
+    条件渲染
+    如果满足指定的条件，则把标签渲染到页面上，否则不渲染到页面上
+
+    页面上没有，并不是简单的隐藏，相对于隐藏来说，不需要消耗相应的性能去描绘出来
+
+    display: none; // 隐藏
+    display: block; // 显示
+
+    wx:else
+    跟wx:if配套使用
+
+3、{{}}
+  {{userInfo}}
+  {{!hasUserInfo}}
+  {{!hasUserInfo && canIUse}} 与或非都可以
+  {{a + b}}  支持数学运算
+
+4、页面中bind开头表示事件的绑定
+ bindgetuserinfo 绑定获取用户信息事件
+ bindtap 绑定触摸事件
+
+5、小程序和vue.js里的基本规则 ，只要数据发生的变化，立刻会反应到页面上
+  单向绑定
+
+6、小程序block的作用
+  <block></block>
+  把想要符合某个条件渲染的所有标签都包围住，此时只需要把条件放在block上
+
+7、css3.0的flex布局
+  display: flex;
+  flex-direction: row|column; // row表示内容在同一行，column表示内容在同一列
+  align-items: center|left|right; // 内容在行或列中排布方式 
+  justify-content: center|space-between; 
+
+8、wx:for
+  wx:for列表渲染，在迭代的过程中，索引名默认为index，项目名item
+
+  {{index}} 输出索引
+  {{item.}} 输出每一项的内容
+
+  如果列表可能动态变更，则需要为每一项提供wx:key属性用于唯一标识每一项
+  wx:key="*this"
+
+9、小程序页面的生命周期
+  https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html
+
+  onLoad 只会执行一次
+  onShow 每次显示页面都会执行

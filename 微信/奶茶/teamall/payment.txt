@@ -1,0 +1,140 @@
+1、支付文档首页
+	https://pay.weixin.qq.com/wiki/doc/api/index.html
+	
+	小程序支付文档
+	https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_3&index=1
+	
+2、签名
+	md5, sha256等签名算法得出的字符串
+	
+	推荐使用md5
+	
+3、JSAPI网页支付
+	公众号或小程序内部发起支付（公众号或小程序里有一个“立即支付”按钮，一旦点击立即支付，则弹出微信支付的输密码界面）
+	
+	js api来发起支付，需要传递5个参数给微信支付后台
+	
+4、OAuth2.0开放认证
+	自己的应用可以使用其他平台开放出来的用户数据，但是并不是所有应用都可以随便使用开放出来的用户数据，而是必须符合一定的协议
+	
+	这个协议必须提供安全认证，
+	appid 应用id，开放平台唯一标识一个可信的应用
+	appkey(appsecret) 应用密钥，由密匙和应用id来确定应用是否合法
+	
+	用户认证
+	
+	appid, appkey传递给开放平台，开放平台获取数据后返回一个code，由此code获取access_token(访问令牌)，当用户授权后，继续把access_token传递给开放平台，开放平台
+	返回一个openid(开放平台的用户在一个外部应用上的唯一编号，同一个用户在同一个应用上的openid是不变的，同一个用户在不同应用上的openid是不一样的)
+	
+	1234567 -> A  X1  X1称之为openid      openid会与数据表的其他记录关联
+	1234567 -> B  X2  X2也是openid
+			      Y1  Y1在应用A和应用B中都是一样的且唯一 
+	
+	unionid：同一个用户在相同开发者的不同应用中的唯一编号
+	
+5、微信支付里的4个基本参数
+	APPID	appid	appid是微信小程序后台或公众号后台APP的唯一标识，在小程序后台申请小程序账号后，微信会自动分配对应的appid，用于标识该应用。可在小程序-->设置-->开发设置中查看。
+	Appsecret	secret	AppSecret是APPID对应的接口密码，用于获取接口调用凭证时使用。
+	
+	微信支付商户号	mch_id	商户申请微信支付后，由微信支付分配的商户收款账号。
+	API密钥	key	交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播。商户妥善保管该Key，切勿在网络中传输，不能在其他客户端中存储，保证key不会被泄漏。商户可根据邮件提示登录微信商户平台进行设置。也可按一下路径设置：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+	
+6、签名算法（请求参数的签名算法）
+	appid：	wxd930ea5d5a258f4f
+
+	mch_id：	10000100
+
+	device_info：	1000
+
+	body：	test
+
+	nonce_str：	ibuaiVcKdpRxkhJA
+	
+	1)按照key的字母的自然顺序组装成查询字符串的形式
+	String str = "appid=wxd930ea5d5a258f4f&body=test&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA";
+	2)把商户对应的api密码拼接到第1步的str后面
+	String str = str + "&key=" + apikey;
+	3)对第2步中生成的str进行md5签名，转成全大写
+	String str = md5(str).toUpperCase(); // 这个字符串就是所需要的经过签名后的字符串
+	
+7、SDK的简要说明
+	WXPayConfig.java   基本配置类，包含有appid等信息
+	WXPayConstants.java     常量类，如api地址
+	WXPayRequest.java       封装好的能够发送请求到指定api地址的类
+	WXPayUtil.java
+		xmlToMap  xml字符串转成HashMap
+		mapToXml  HashMap转成XML字符串
+		generateSignedXml 生成带有 sign 签名的xml文档，Map<String, String> data，只需要有appid, mch_id, nonce_str, body, out_trade_no, total_fee, notify_url, trade_type
+														String key, 商户密匙     由商户密匙，此方法自动算出sign签名
+														
+8、小程序支付流程
+	1)小程序端wx.login登录，获取openid
+	2)把openid上传到商户系统的服务器
+	3）java版微信 sdk 的WXPay类的unfiedOrder方法发起预付单请求
+	4）获取第三步中返回的prepay_id(预付单编号)
+	5）把appid, mch_id, package, nonce_str, timeStamp再次签名生成 paySign， WXPayUtil.generateSignature
+	6) 把第五步所有参数，包括生成 的paySign传递到小程序端
+	7）小程序端使用wx.requestPayment函数发起支付请求，所需要的参数及是第6步中获取的参数
+	wx.requestPayment(
+{
+'timeStamp': '',
+'nonceStr': '',
+'package': '',
+'signType': 'MD5',
+'paySign': '',
+'success':function(res){},
+'fail':function(res){},
+'complete':function(res){}
+})
+	
+	公众号内支付
+	1)公众号内或者网页中完成登录, 使用OAuth2.0的形式来登录，获取openid
+	2)把openid上传到商户系统的服务器
+	3）java版微信 sdk 的WXPay类的unfiedOrder方法发起预付单请求
+	4）获取第三步中返回的prepay_id(预付单编号)
+	5）把appid, mch_id, package, nonce_str, timeStamp再次签名生成 paySign, WXPayUtil.generateSignature
+	6）把第五步所有参数，包括生成 的paySign传递到公众号网页
+	7）在网页中使用js api发起支付请求
+		function onBridgeReady(){
+   WeixinJSBridge.invoke(
+       'getBrandWCPayRequest', {
+           "appId":"wx2421b1c4370ec43b",     //公众号名称，由商户传入     
+           "timeStamp":"1395712654",         //时间戳，自1970年以来的秒数     
+           "nonceStr":"e61463f8efa94090b1f366cccfbbb444", //随机串     
+           "package":"prepay_id=u802345jgfjsdfgsdg888",     
+           "signType":"MD5",         //微信签名方式：     
+           "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
+       },
+       function(res){     
+           if(res.err_msg == "get_brand_wcpay_request:ok" ) {}     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+       }
+   ); 
+}
+if (typeof WeixinJSBridge == "undefined"){
+   if( document.addEventListener ){
+       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+   }else if (document.attachEvent){
+       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+   }
+}else{
+   onBridgeReady();
+}
+	
+	
+	
+	
+登录文档：
+https://developers.weixin.qq.com/miniprogram/dev/api/api-login.html?t=20161122
+
+预付单文档
+https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_1&index=1
+
+小程序发起支付文档
+https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3
+
+公众号发起支付文档
+https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6
+
+签名：
+https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3
