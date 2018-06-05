@@ -1,0 +1,138 @@
+1、SpringBoot项目的创建
+    1）http://start.spring.io创建项目，并下载
+    2）IntelliJIdea创建Spring Initializr项目，注意选择适当的版本，Maven项目
+
+2、SpringBoot的启动类，位置最好是与其他包在同一个级别的目录中
+    @SpringBootApplication
+
+3、SpringBoot的配置文件
+    1）properties文件
+    2）yaml格式文件，yml
+
+4、SpringBoot server的配置
+    server:
+      port: 8080
+      tomcat:
+        uri-encoding: UTF-8
+      servlet:
+          context-path:
+
+5、SpringBoot的基础配置(国际化，文件上传，数据源（druid-starter）,jpa配置（Hibernate），模板引擎（不包含jsp）)
+spring:
+  messages:
+    basename: i18n/messages,i18n/msg
+    encoding: UTF-8
+    fallback-to-system-locale: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/teamall?useUnicode=true&CharacterEncoding=utf-8
+      username: root
+      password: root
+      validation-query: select 1
+      max-active: 100
+      min-idle: 10
+      max-wait: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      initial-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+  thymeleaf:
+    cache: false
+
+    模板引擎：静态文件 resources/static目录，模板文件 resources/templates
+    静态文件的引用：@{"/css/main.css"}   （相对于static目录开始）
+
+6、SpringBoot的视图层配置（jsp）
+spring:
+  mvc:
+   view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+   JSP页面：src根目录下创建 webapp目录，webapp目录下创建WEB-INF目录
+   静态文件 webapp/static, JSP文件 webapp/WEB-INF/views
+   静态文件的引用：<%=path%>/static/css/main.css   （相对于上下文路径开始）
+
+7、SpringBoot日志记录，默认使用logback
+    logging:
+      file:
+        max-history: 60
+      level:
+        root: INFO
+      path: .
+      pattern:
+        console: "%date %level %thread %10logger %file %line %msg%n"
+        file: "%date %level %thread %10logger %file %line %msg%n"
+        level: "%5p"
+      register-shutdown-hook: false
+
+8、SpringBoot与MyBatis的整合
+    mybatis-starter
+    mybatis:
+      configuration:
+        cache-enabled: true
+        map-underscore-to-camel-case: true
+        use-generated-keys: true
+        use-column-label: true
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+      type-aliases-package: com.gs.bean
+      mapper-locations: classpath:/mapper/*Mapper.xml
+
+      映射文件也可以使用注解的形式（简单的sql推荐使用注解）
+
+      在启动类中加@MapperScan注解，说明所有dao接口的包，这样就不需要在每个dao接口前加@Mapper注解
+
+9、SpringBoot与Redis的整合
+    不需要写任何配置，使用默认约定
+
+    需要自定义RedisTemplate，指明Key和Value的序列化方式，请参考RedisConfig.java
+
+    1）在代码中使用RedisTemplate和ValueOperations来操作缓存
+    2）***直接使用注解来操作缓存（key的生成策略）
+        a、在启动类中添加 @EnableCaching
+        b、直接在方法的前面使用@CachePut(添加缓存，查询方法使用),@CacheEvict(移除缓存，更新和删除方法使用), @Cacheable
+
+10、SpringBoot与Apache Shiro整合
+    shiro-starter
+
+    Shiro配置：
+    1）JdbcRealm(使用自定义的数据表，修改了用户查询语句，角色查询语句，权限查询语句)，注入DataSource
+    2）SecurityManager的配置：注入Realm和缓存管理器
+    3）ShiroFilterFactoryBean配置：哪些URL可以匿名访问，登录URL，注入SecurityManager
+    4）如果需要开启Shiro的注解，则必须添加下面的配置：
+        @Bean
+        public static DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+            DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator=new DefaultAdvisorAutoProxyCreator();
+            defaultAdvisorAutoProxyCreator.setUsePrefix(true);
+            return defaultAdvisorAutoProxyCreator;
+        }
+
+    常用注解：
+    @RequiresAuthentication 需要进行用户认证
+    @RequiresUser 必须是系统的用户
+    @RequiresRoles({"role1", "role2"})
+    @RequiresPermissions({"p1", "p2"})
+    @RequiresGuest
+
+11、SpringBoot与Activiti的整合
+    1）如果使用Activiti提供的Starter，则springboot的版本不能过高，推荐使用1.5.10
+    2）如果不使用starter，则可以使用@Configuration和@Bean的形式来配置Activiti
+        a、SpringProcessEngineConfiguration
+        b、ProcessEngineFactoryBean
+
+12、spring-data-jpa
+    @Entity, @Table, @Id, @Column, @GeneratedValue, @OneToOne, @OneToMany, @ManyToOne, @ManyToMany(建议拆分成两个@OneToMany)
+    @JsonIgnore忽略JSON序列化
+    延迟加载问题
+    Bean需要实现java.io.Serializable接口

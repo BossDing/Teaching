@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs.dao.ProductDAO">
+    <insert id="save" parameterType="product">
+        insert into t_product(title, price, create_time) values(#{title}, #{price}, #{createTime})
+    </insert>
+
+    <select id="listAll" resultType="product">
+        select * from t_product
+    </select>
+</mapper>

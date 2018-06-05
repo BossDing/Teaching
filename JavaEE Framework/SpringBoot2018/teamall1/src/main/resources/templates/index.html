@@ -1,0 +1,54 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <link th:href="@{/css/main.css}" href="../static/css/main.css" rel="stylesheet"/>
+    </head>
+<body>
+<div th:if="${#lists.isEmpty(allProducts)}">
+    无商品
+</div>
+<!-- th:unless="${#lists.isEmpty(allProducts)}" 与下面的写法的效果是一致的-->
+<div th:if="not ${#lists.isEmpty(allProducts)}">
+    <table>
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th th:text="#{title}">Name</th>
+            <th th:text="#{price}">Price</th>
+        </tr>
+        </thead>
+        <tbody th:remove="all-but-first">
+            <tr th:each="prod, prodStatus: ${allProducts}">
+                <!-- 状态的属性：index,count,size,current,even,odd,first,last 如果没有显式地声明名称，则默认名为  变量+Stat-->
+                <td th:id="${prodStatus.count}" th:text="${prodStatus.count}">1</td>
+                <td th:text="${prod.title}">Oranges</td>
+                <td th:text="${#numbers.formatDecimal(prod.price, 1, 2)}" class="price">0.99</td>
+            </tr>
+            <tr>
+                <td>商品序号</td>
+                <td>商品名称</td>
+                <td class="price">0.99</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:object="${product}">
+    <p th:text="*{title}">标题</p>
+    <p th:text="*{#numbers.formatDecimal(price, 1, 2)}">0.99</p>
+    <p th:text="*{createTime}">2018-05-28</p>
+</div>
+
+<div th:switch="${product.title}">
+    <p th:case="'test1'">商品一</p>
+    <p th:case="'test2'">商品二</p>
+</div>
+
+<div th:with="firstProd=${allProducts[0]}">
+    <span th:text="${firstProd.title}">第一个商品的名称</span>
+</div>
+
+<div th:include="footer::copy"></div>
+
+</body>
+</html>

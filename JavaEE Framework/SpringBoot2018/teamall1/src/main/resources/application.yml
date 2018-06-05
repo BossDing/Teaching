@@ -1,0 +1,4 @@
+#application-dev|prod.properties
+spring:
+  profiles:
+    active: dev

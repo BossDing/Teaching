@@ -1,0 +1,49 @@
+1、many-to-many转成两个one-to-many的用法
+    第三张关联表还可以增加额外的字段
+
+
+    如果是单纯的many-to-many，则第三张关联只能是有关联关联，没有其他额外的字段
+     @ManyToMany
+     // 用于描述关联表对象
+     @JoinTable(joinColumns = { @JoinColumn(name = "member_id") }, inverseJoinColumns = {
+               @JoinColumn(name = "department_id") }) //被控方表字段名
+
+               Member和Department是多对多关联关系
+
+               @Entity
+               @Table(name = "costume_member")
+               public class Member {
+                   private static final long serialVersionUID = 1L;
+
+                   @Column(nullable = false, length = 20)
+                   private String name;
+
+                   @ManyToMany
+                   @JoinTable(name="t_department_member", joinColumns = { @JoinColumn(name = "member_id") }, inverseJoinColumns = {
+                           @JoinColumn(name = "department_id") }) //被控方表字段名
+                   private Set<Department> departmentSet; // 部门表外键
+
+                   public Set<Department> getDepartmentSet() {
+                       return departmentSet;
+                   }
+
+                   public void setDepartmentSet(Set<Department> departmentSet)
+                   {
+                       this.departmentSet = departmentSet;
+                   }
+               }
+
+                              @Entity
+                              @Table(name = "department")
+                              public class Department {
+                                  private static final long serialVersionUID = 1L;
+
+                                  @Column(nullable = false, length = 20)
+                                  private String name;
+
+                                  @ManyToMany
+                                  @JoinTable(name="t_department_member", joinColumns = { @JoinColumn(name = "department_id") }, inverseJoinColumns = {
+                                          @JoinColumn(name = "member_id") }) //被控方表字段名
+                                  private Set<Member> memberSet; // 员工表外键
+
+                              }

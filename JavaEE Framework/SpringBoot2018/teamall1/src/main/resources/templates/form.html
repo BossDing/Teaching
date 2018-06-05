@@ -1,0 +1,21 @@
+<!DOCTYPE>
+<html>
+    <head>
+    </head>
+<body>
+<form th:action="@{/form/login}" th:object="${user}" method="post">
+    <!-- 从后台把数据可以显示到前台的表单中
+        表单的数据可以根据th:field的名称提交到后台
+     -->
+    <!--
+        <input type="text" th:value="*{name}" name="name"/>
+        -->
+    <input type="text" th:field="*{name}" value="test"/>
+    <input type="password" th:field="*{password}" value="test"/>
+        <button type="button" onclick="login()">点击登录</button>
+    <input type="submit"/>
+</form>
+<div th:include="footer::copy" ></div>
+</body>
+<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+</html>
