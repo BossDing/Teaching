@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1536115763 source:c:\users\administrator\desktop\c”Ô—‘\snake\snake\main.cpp
+	"windows.h"
+	"const.h"
+	"map.h"
+
+1536019892 source:c:\users\administrator\desktop\c”Ô—‘\snake\snake\graphics.cpp
+	"graphics.h"
+
+1536115774 c:\users\administrator\desktop\c”Ô—‘\snake\snake\const.h
+
+1536115754 c:\users\administrator\desktop\c”Ô—‘\snake\snake\map.h
+

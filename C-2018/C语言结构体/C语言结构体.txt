@@ -1,0 +1,79 @@
+1、任何事物都可以通过一些特性描述出来
+
+2、结构体可以把相关的特性归为一个组
+    Person: name, age, gender, height, weight, id
+    Computer: brand, price, cpu, ram
+    Student: no, name, age, gender
+    ……
+
+    struct Person
+    {
+        char name[10];
+        int age;
+        char gender;
+        float height;
+        float weight;
+        char id[18];
+    };
+
+    struct Person p = {"张三", 20, '女', 170.0, 60.0, "fdsklfjdslkfjdslkf"}; // struct可以省略
+
+    struct Person p[10];
+
+    结构体使用：
+    printf("%s\n", p.name); // 使用
+    p.age = 20; // 赋值
+
+    . 运算符
+        用于引用结构体内部的数据
+
+    struct Person
+    {
+        char name[10];
+        int age;
+        char gender;
+        float height;
+        float weight;
+        char id[18];
+    } person;
+
+
+    struct Cpu
+    {
+        char brand[10];
+        int core;
+    };
+
+    struct Ram
+    {
+        char brand[10];
+        int size;
+    };
+
+    struct Computer
+    {
+        char brand[10];
+        double price;
+        struct Cpu cpu;
+        struct Ram ram;
+    };
+
+    int a = 10;
+    struct Computer c = {"lenovo", 9999.99, };
+
+    c.cpu.brand = "";
+
+3、char字符串的特殊处理
+    char c[] = "aaaaa"; // 可行的
+
+    char c[5] = "dfjkldjfkdjf"; // 字符串超出了数组的长度，不可行
+
+    char c[20];
+    c = "adfdf"; // 不可行
+
+    char c[20];
+    strcpy(c, "adfjd"); // 可行 
+
+    char *s = "adfdf"; // 可行
+
+    ****参考习题目录中的char.cpp

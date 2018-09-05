@@ -1,0 +1,69 @@
+1、TC里的图形函数 
+    graphics.h头文件
+
+2、CodeBlocks, ege
+    同样有graphics.h头文件
+    不需要老系统支持，可以在最新的系统上跑
+
+    可能会用到c++里的部分函数
+
+3、开发环境的配置
+    1）安装好带编译器的codeblocks
+    2）安装codeblocks
+    3）下载ege，并解压
+        什么是ege
+            EGE（Easy Graphics Engine），是windows下的简易绘图库，是一个类似BGI(graphics.h)的面向C/C++语言新手的图形库，
+            它的目标也是为了替代TC的BGI库而存在。
+
+            它的使用方法与TC中的graphics.h相当接近，对新手来说，简单，友好，容易上手，免费开源，而且接口意义直观，即使是完全
+            没有接触过图形编程的，也能迅速学会基本的绘图。
+
+            目前，EGE图形库已经完美支持VC6, VC2008, VC2010, VC2012, VC2013, VC2015, VC2017, C-Free, DevCpp, Code::Blocks, wxDev, 
+            Eclipse for C/C++等IDE，即支持使用MinGW为编译环境的IDE。如果你需要在VC下使用graphics.h，那么ege将会是很好的替代品。
+    4）使用codeblocks来创建项目
+        File - New - Project - Console Application(控制台项目)   创建的过程中不要修改编译器
+    5）把下载的ege include目录和lib目录中指定的以下文件copy到codeblocks相关目录中
+        a、 include目录
+            ege.h
+            graphics.h
+            ege/button.h
+            ege/fps.h
+            ege/label.h
+            ege/sys_edit.h
+            复制到codeblocks安装目录下的MinGW\include目录中
+
+        b、lib目录
+            把mingw4.8.1目录中的lib目录下的libgraphics.a文件copy到codeblocks安装目录的MinGW\lib目录中
+    6）项目配置（引用头文件的配置）
+        Project - Build Options - Linker Settings(链接配置)- Add按钮 - 选择文件加载到项目配置中
+        文件列表如下 ：
+        MinGW\lib\libgraphics.a
+
+        MinGW\lib\libgdi32.a
+
+        MinGW\lib\libimm32.a
+
+        MinGW\lib\libmsimg32.a
+
+        MinGW\lib\libole32.a
+
+        MinGW\lib\liboleaut32.a
+
+        MinGW\lib\libwinmm.a
+
+        MinGW\lib\libuuid.a
+    7）在第六步的窗口中
+        Other Linker Options   
+        -mwindows
+    8）写代码并运行
+
+4、第一个图形程序
+    #include "graphics.h"
+    int main()
+    {
+        initgraph(800, 600); // 初始化画布
+        circle(200, 200, 100); // 画圆形
+        getch(); // 等待键盘输入
+        closegraph(); // 关闭画布 
+        return 0;
+    }
