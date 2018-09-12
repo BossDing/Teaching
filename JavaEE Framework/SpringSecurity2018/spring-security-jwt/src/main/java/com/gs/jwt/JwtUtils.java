@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,8 @@ import java.util.UUID;
 
 @Component
 public class JwtUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
 
     public static final String JWT_CLAIMS = "jwt_claims";
@@ -62,15 +66,25 @@ public class JwtUtils {
     }
 
     public Claims getTokenClaims(String token) {
-        return Jwts.parser()
+        Claims claims = null;
+        try {
+            claims = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
+        } catch (Exception e) {
+            logger.error("jwt token error!");
+        }
+        return claims;
     }
 
     public JwtClaims getTokenJwtClaims(String token) {
+        JwtClaims jwtClaims = null;
         Claims claims = getTokenClaims(token);
-        return JSON.parseObject((String) claims.get(JWT_CLAIMS), JwtClaims.class);
+        if (claims != null) {
+            jwtClaims = JSON.parseObject((String) claims.get(JWT_CLAIMS), JwtClaims.class);
+        }
+        return jwtClaims;
     }
 
     public JwtUser getTokenJwtUser(JwtClaims jwtClaims) {

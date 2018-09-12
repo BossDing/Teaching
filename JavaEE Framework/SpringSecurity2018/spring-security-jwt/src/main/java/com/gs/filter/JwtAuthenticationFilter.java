@@ -40,13 +40,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (!StringUtils.isEmpty(token) && token.startsWith(headerPrefix)) {
             token = token.substring(headerPrefix.length());
             JwtClaims jwtClaims = jwtUtils.getTokenJwtClaims(token);
-            String username = jwtClaims.getUsername();
-            if (!StringUtils.isEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-                JwtUser jwtUser = (JwtUser) jwtUserDetailsService.loadUserByUsername(username);
-                if (jwtUtils.validateToken(jwtUser, jwtClaims)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(jwtUser, null, jwtUser.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (jwtClaims != null) {
+                String username = jwtClaims.getUsername();
+                if (!StringUtils.isEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    JwtUser jwtUser = (JwtUser) jwtUserDetailsService.loadUserByUsername(username);
+                    if (jwtUtils.validateToken(jwtUser, jwtClaims)) {
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(jwtUser, null, jwtUser.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
                 }
             }
         }
