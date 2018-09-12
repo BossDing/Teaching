@@ -1,6 +1,9 @@
 package com.gs.security;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gs.jwt.JwtUser;
+import com.gs.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -28,6 +34,9 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         logger.info("登录成功");
 
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(authentication));
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        String token = jwtUtils.generateToken(jwtUser);
+        // response.getWriter().write(objectMapper.writeValueAsString(authentication));
+        response.getWriter().write(JSON.toJSONString(token));
     }
 }

@@ -1,8 +1,8 @@
 package com.gs.service;
 
+import com.gs.jwt.JwtUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SpringUserDetailsService implements UserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 根据用户名去查找用户和用户对应的角色
@@ -25,6 +25,6 @@ public class SpringUserDetailsService implements UserDetailsService {
         }
         // 这里的authorityes就是用户对应的角色
         // access list即为用户可访问的url
-        return new User(username, new BCryptPasswordEncoder().encode("123456"), authorities);
+        return new JwtUser(10001, username, new BCryptPasswordEncoder().encode("123456"), authorities);
     }
 }

@@ -12,3 +12,9 @@ spring:
       name: user
   thymeleaf:
     cache: false
+jwt:
+  header: Authorization
+  header-prefix: "Bearer "
+  secret: w-oasiswgs123456
+  access-token:
+    expiration: 604800

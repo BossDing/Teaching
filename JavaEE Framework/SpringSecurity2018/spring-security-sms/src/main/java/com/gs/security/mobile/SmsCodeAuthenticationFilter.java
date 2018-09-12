@@ -61,4 +61,5 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     public final String getMobileParameter() {
         return mobileParameter;
     }
+
 }

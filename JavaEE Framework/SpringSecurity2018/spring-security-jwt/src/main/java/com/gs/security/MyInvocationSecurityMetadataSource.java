@@ -1,6 +1,5 @@
 package com.gs.security;
 
-import com.gs.bean.Permission;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;

@@ -1,5 +1,6 @@
 package com.gs.security;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,6 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
 
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(exception.getMessage()));
+        response.getWriter().write(JSON.toJSONString("用户验证失败"));
     }
 }
