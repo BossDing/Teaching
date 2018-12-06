@@ -50,7 +50,8 @@ public class Swagger2Config {
         List<SecurityContext> securityContextList = new ArrayList<>();
         securityContextList.add(SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex("^(?!auth).*$"))
+                // .forPaths(PathSelectors.regex("^(?!auth).*$"))
+                .forPaths(PathSelectors.any())
                 .build());
         return securityContextList;
     }
