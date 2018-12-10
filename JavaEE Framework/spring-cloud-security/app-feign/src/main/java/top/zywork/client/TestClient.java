@@ -3,13 +3,13 @@ package top.zywork.client;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
-import top.zywork.vo.User;
+import top.zywork.vo.ResponseStatusVO;
 
 @Component
-@FeignClient("service-provider")
+@FeignClient(value = "service-provider", fallback = TestClientHystrix.class)
 public interface TestClient {
 
     @GetMapping("/test/one")
-    User get();
+    ResponseStatusVO get();
 
 }

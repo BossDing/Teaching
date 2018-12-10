@@ -3,6 +3,7 @@ package top.zywork.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.zywork.bean.ResponseStatusVO;
 import top.zywork.bean.User;
 
 @RestController
@@ -10,11 +11,12 @@ import top.zywork.bean.User;
 public class TestController {
 
     @GetMapping("one")
-    public User get() {
+    public ResponseStatusVO get() {
         User user = new User();
         user.setId(1000);
         user.setUsername("test1");
-        return user;
+        ResponseStatusVO statusVO = new ResponseStatusVO(1000, "成功", user);
+        return statusVO;
     }
 
 }

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.zywork.client.TestClient;
-import top.zywork.vo.User;
+import top.zywork.vo.ResponseStatusVO;
 
 @RestController
 @RequestMapping("/test")
@@ -14,7 +14,7 @@ public class TestController {
     private TestClient testClient;
 
     @GetMapping("one")
-    public User get() {
+    public ResponseStatusVO get() {
         return testClient.get();
     }
 
