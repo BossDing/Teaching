@@ -16,6 +16,11 @@ public class TestController {
         user.setId(1000);
         user.setUsername("test");
         ResponseStatusVO statusVO = new ResponseStatusVO(1000, "成功", user);
+        try {
+            Thread.sleep(5000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return statusVO;
     }
 

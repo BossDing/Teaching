@@ -11,3 +11,13 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8088/eureka/
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+      fallback:
+        # 是否开启回退方法
+        enabled: true
