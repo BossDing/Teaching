@@ -16,3 +16,16 @@ zuul:
     test-service:
       path: /api/**
       serviceId: service-provider
+ribbon:
+  ReadTimeout: 6000
+  ConnectionTimeout: 6000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+      fallback:
+        # 是否开启回退方法
+        enabled: true
